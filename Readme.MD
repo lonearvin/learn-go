@@ -188,9 +188,10 @@ docker exec -it my-redis redis-cli
 通过这些步骤，你可以在 Docker 中轻松地运行、配置和管理 Redis。
 ## redis分布式锁
 ### 实现redlock算法-多redis实现分布式锁
+文件地址：[2024-12-23-1-RedisLock]
 #### 使用使用 Docker Compose 创建多个 Redis 实例
 docker compose 是用于定义和运行多容器 Docker 应用程序的工具。通过 Compose，您可以使用 YML 文件来配置应用程序需要的所有服务。然后，使用一个命令，就可以从 YML 文件配置中创建并启动所有服务。
-```yaml
+```yml
 version: '3.8'
 services:
   redis1:
@@ -215,12 +216,26 @@ services:
     ```bash
         docker-compose up -d
     ```
+### 分析RedLock算法
+考虑几个问题。
+- 使用多少个redis才算合理且安全，那么是一个还是多个，当然是多个更加安全，为什么？
+因为如果一个redis宕机了怎么办，我们需要保证系统的<span style="color:red">高可用</span>。
+- <span style="color:red">续约问题</span>，为防止任务执行过程中出现超时淘汰。
 
 
 
 
+## git
+```bash
+git push -u origin master
+```
+1. 设置上游分支
+当你第一次推送本地分支时，可以用 -u 来指定上游分支，这会将本地的 master 分支与远程的 origin/master 分支绑定。
 
-
+## Redis 中 Lua 脚本的执行原理
+原子性
+Lua 脚本在 Redis 中是以单线程方式执行的，因此具有原子性。
+脚本执行期间，Redis 不会处理其他客户端的请求，这保证了多个 Redis 命令的组合操作是不可分割的。
 
 
 
