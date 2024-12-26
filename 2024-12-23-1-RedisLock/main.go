@@ -67,6 +67,7 @@ func NewRedLock(ctx context.Context, localhost []string, ttl time.Duration, ptl 
 
 // Lock 获取分布式锁
 func (rl *RedLock) Lock(ctx context.Context, key string) (string, error) {
+	// 获取当前客户端锁使用唯一id
 	LockID := uuid.New().String()
 	wg := sync.WaitGroup{}
 	var successCount int32
